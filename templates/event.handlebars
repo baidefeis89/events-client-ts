@@ -1,0 +1,31 @@
+  {{#each event}}
+    <div class="card-deck mb-4">
+        <div class="card">
+            <a href="event-details.html?id={{id}}"><img class="card-img-top" src="http://arturober.com/svtickets-services/public/img/events/{{image}}"></a>
+            <div class="card-body">
+            <div class="float-left mr-4 text-center">
+                <a href="profile?id=1"><img class="rounded-circle" style="width: 50px;" src="http://arturober.com/svtickets-services/public/img/profile/{{creator.avatar}}" alt=""></a>
+                <div>
+                <small>{{creator.name}}</small>
+                </div>
+            </div>
+            <h4 class="card-title">
+                <a href="event-details.html?id={{id}}">{{title}}</a>
+            </h4>
+            <p class="card-text">{{description}}</p>
+            <div>
+                {{#if mine}}
+                <button class="btn btn-danger ml-3 float-right">Delete</button>
+                {{/if}}
+                <button class="btn btn-secondary float-right">Attend</button>
+            </div>
+            </div>
+            <div class="card-footer">
+            <small class="text-muted">
+                {{date}}
+                <span class="float-right">{{price}}€</span>
+            </small>
+            </div>
+        </div>
+    </div>
+    {{/each}}
