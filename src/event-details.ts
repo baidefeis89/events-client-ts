@@ -1,4 +1,3 @@
-import { IUser } from "./interfaces/iuser";
 import { EventItem } from "./classes/event";
 import { Auth } from "./classes/authentication";
 import { Geolocation } from "./classes/geolocation";
@@ -12,6 +11,11 @@ let info = {
     event:[] 
 }
 let gmap;
+
+document.getElementById('logout').addEventListener('click', e => {
+    Auth.logout();
+    location.assign('./login.html');
+});
 
 window.addEventListener('load', e => {
 
@@ -36,28 +40,21 @@ window.addEventListener('load', e => {
 
             compileHandlebar();
 
+            createClickEvent();
+            attendButton();
+
             let position = {
                 latitude: event.lat,
                 longitude: event.lng
             }
-            gmap = new GMaps(position, document.getElementById("map"));
+            let divMap = <HTMLDivElement> document.getElementById('map');
+            gmap = new GMaps(position, divMap);
             gmap.getMap().then(map => {                           
                 let marker = gmap.createMarker(position.latitude, position.longitude, "red");
                 clickMarker(marker);
             });
 
-            let buttonDelete = document.querySelector("button.btn-danger");
-            if (document.querySelector("button.btn-danger")) {
-              buttonDelete.addEventListener("click", e => {
-                if (confirm('Delete this event?')) {
-                    event.delete().then( response => {
-                        if (response) {
-                            location.assign('./index.html');
-                        }
-                    });
-                }
-              });
-            }
+            
             
         }).catch( err => {
             location.assign('./index.html');
@@ -66,6 +63,39 @@ window.addEventListener('load', e => {
         
 });
 
+let createClickEvent = () => {
+    if (event.mine) {
+        document.getElementById("buttonDelete"+event.id).addEventListener("click", e => {
+            if (confirm('Delete this event?')) {
+                event.delete().then( response => {
+                    if (response) {
+                        location.assign('./index.html');
+                    }
+                });
+            }
+        });
+    }
+}
+
+let attendButton = () => {
+
+    let button =  document.getElementById('attend' + event.id);
+    button.addEventListener('click', e=> {
+        event.toggleAttend().then( response => {
+            if (response) {
+                if (event.attend) {
+                    button.setAttribute('class', 'btn btn-success float-right');
+                    button.innerHTML = 'Attend';
+                } else {
+                    button.setAttribute('class', 'btn btn-secondary float-right');
+                    button.innerHTML = 'No Attend';
+                }
+            }
+            
+        });
+        
+    });
+}
 
 let compileHandlebar = () => {
     let container = document.getElementById('cardContainer');

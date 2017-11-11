@@ -13,8 +13,9 @@ export class Auth {
                     console.log(response);
                     return response.ok;
                 } else {
-                    console.log(response);
-                    return response.ok;
+                    /*console.log(response);
+                    return response.ok;*/
+                    throw response.error;
                 }
             });
     }
@@ -22,15 +23,18 @@ export class Auth {
     static register(userInfo:IUser): Promise<boolean> {
         return Http.ajax('POST', REGISTER_PATH, userInfo)
             .then( response => {
-                console.log('Prueba register: ',response);
+                /*console.log('Prueba register: ',response);
                 if (!response.ok && response.errors.length > 0) {
                     response.errors.forEach( err => {
                         document.getElementById('errorInfo').innerHTML = err;
                     });
+                }*/
+                if (response.ok) {
+                    return response.ok
                 }
-                return response.ok;
-            }).catch( err => {
-              return err;  
+                else {
+                    throw response.errors;
+                }
             });
     }
 
@@ -38,10 +42,10 @@ export class Auth {
         return Http.ajax('GET', TOKEN_PATH)
             .then( response => {
                 console.log('Prueba token: ',response);
-                return response.ok;
-            }).catch( err => {
-                console.log('Error ajax token');
-                return err;
+                if (response.ok)
+                    return response.ok;
+                else
+                    throw false;
             });
     }
 

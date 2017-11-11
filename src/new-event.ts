@@ -3,6 +3,7 @@ import { EVENTS_PATH } from "./contants";
 import { INewEvent } from "./interfaces/inewevent";
 import { Geolocation } from "./classes/geolocation";
 import { GMaps } from "./classes/gmaps";
+import { Auth } from "./classes/authentication";
 
 let data: INewEvent;
 let gmap = null;
@@ -10,6 +11,11 @@ let position = {
     lat: null,
     lng: null
 };
+
+document.getElementById('logout').addEventListener('click', e => {
+    Auth.logout();
+    location.assign('./login.html');
+});
 
 document.getElementById('newEvent').addEventListener('submit', e => {
     e.preventDefault();
@@ -61,8 +67,11 @@ function changeAutocomplete(autocomplete) {
         if (!place.geometry) return;
         
         map.panTo(place.geometry.location);
-        gmap.createMarker(place.geometry.location.lat(), place.geometry.location.lng(), "blue");
+        gmap.createMarker(place.geometry.location.lat(), place.geometry.location.lng(), "red");
         document.getElementById("address").innerText = place.formatted_address;
+
+        position.lat = place.geometry.location.lat();
+        position.lng = place.geometry.location.lng();
     }); 
 }
 
@@ -71,11 +80,8 @@ function clickMap(position) {
 
     google.maps.event.addListener(map, 'click', event => {
         map.panTo(event.latLng); 
-        let marker = gmap.createMarker(event.latLng.lat(), event.latLng.lng(), "green");
-    //TODO Check this
-    /*position.lat = gmap.coords.latitude;
-    position.lng = gmap.coords.longitude;
-    console.log('Latitud: ',position.lat,' Longitud: ',position.lng);*/
+        let marker = gmap.createMarker(event.latLng.lat(), event.latLng.lng(), "red");
+
         clickMarker(marker);
         var dist = google.maps.geometry.spherical.computeDistanceBetween(
             new google.maps.LatLng(position.coords.latitude, position.coords.longitude), // Our position
@@ -85,21 +91,18 @@ function clickMap(position) {
             ", lng: " + event.latLng.lng() + "\n" +
             "Distance from you: " + (Math.round(dist)/1000) + "km";
                             
+        position.lat = event.latLng.lat();
+        position.lng = event.latLng.lng();
+        let address = <HTMLInputElement>document.getElementById("address");
+        address.value = `${position.lat}, ${position.lng}`;
     });
 }
 
 function clickMarker(marker) {
     google.maps.event.addListener(marker, 'click', event => {
-        /*position.lat = event.latLng.lat().value;
-        position.lng = event.latLng.lng().value;
-        console.log('Latitud: ',position.lat,' Longitud: ',position.lng);*/
         gmap.showInfoWindow(marker, "Marker at lat: " + event.latLng.lat().toFixed(6) +
                                     ", lng: " + event.latLng.lng().toFixed(6));
     });
-    //TODO Check this
-    /*position.lat = gmap.coords.latitude;
-    position.lng = gmap.coords.longitude;
-    console.log('Latitud: ',position.lat,' Longitud: ',position.lng); */   
 }
 
 window.addEventListener('load', function () {
@@ -109,8 +112,8 @@ window.addEventListener('load', function () {
         position.lng = response.coords.longitude;
         let address = <HTMLInputElement>document.getElementById("address");
         address.value = `${response.coords.latitude}, ${response.coords.longitude}`;
-        
-        gmap = new GMaps(response.coords, document.getElementById("map"));
+        let divMap = <HTMLDivElement> document.getElementById('map');
+        gmap = new GMaps(response.coords, divMap);
         gmap.getMap().then(map => {            
             clickMap(response); // Initializes click event on the map 
 

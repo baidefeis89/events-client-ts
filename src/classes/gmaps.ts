@@ -6,7 +6,7 @@ export class GMaps {
     coords: any;
     divMap: any;
 
-    constructor(coords, divMap) {
+    constructor(coords: {latitude: number, longitude: number}, divMap: HTMLDivElement) {
         gmapsSettings.key = 'AIzaSyDsm-KdVSm6e36pNcmjOz9CbxB9Yq_9fCc';
         gmapsSettings.language = 'es';
         gmapsSettings.region = 'ES';
@@ -17,7 +17,7 @@ export class GMaps {
         this.divMap = divMap;
     }
 
-    getMap() { // Returns Promise!
+    getMap(): Promise<google.maps.Map> { // Returns Promise!
         if (this.map !== null) return new Promise((resolve, reject) => resolve(this.map));
         
         return loadGMaps().then((gmaps) => {
@@ -34,7 +34,7 @@ export class GMaps {
         }); // gmaps -> google.maps
     }
 
-    createMarker(lat, lng, color) {
+    createMarker(lat: number, lng: number, color: string): google.maps.Marker {
         if(this.map === null) return;
 
         let gLatLng = new google.maps.LatLng(lat, lng);
@@ -56,7 +56,7 @@ export class GMaps {
         
     }
 
-    getAutocomplete(input) {
+    getAutocomplete(input: HTMLInputElement) {
         if(this.autocomplete !== null) return this.autocomplete;
 
         var autocomplete = new google.maps.places.Autocomplete(input);

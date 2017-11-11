@@ -17,6 +17,9 @@ export class Geolocation {
                     case error.TIMEOUT: // The maximum amount of time to get location information has passed
                         reject("The request to get user location timed out.");
                         break;
+                    default:
+                        reject("An unknown error occurred.");
+                        break;
                     /*case error.UNKNOWN_ERROR:
                         reject("An unknown error occurred.");
                         break;*/
