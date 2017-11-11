@@ -31,18 +31,14 @@ window.addEventListener('load', e => {
                 
                 if(loginInfo.email != '' && loginInfo.password != ''){
                     Auth.login(loginInfo).then( response => {
-                        if (response) {
-                            console.log("Success");
-                            location.assign('./index.html')
-                        }
-                        else {
-                            console.log("failed");
-                            document.getElementById('errorInfo').innerHTML = 'Nombre de usuario o contraseña incorrectos';
-                        }
-                        
+                        console.log("Success");
+                        location.assign('./index.html')
                     }).catch( err => {
                         console.log(err);
+                        document.getElementById('errorInfo').innerHTML = 'Nombre de usuario o contraseña incorrectos';
                     });
+                } else {
+                    document.getElementById('errorInfo').innerHTML = 'Debe rellenar ambos campos';                    
                 }
                 
             });
