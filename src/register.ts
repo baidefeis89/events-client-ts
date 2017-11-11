@@ -1,5 +1,19 @@
 import { Auth } from "./classes/authentication";
 import { IUser } from "./interfaces/iuser";
+import { Geolocation } from "./classes/geolocation";
+
+let positionLat;
+let positionLng;
+let lat = <HTMLInputElement>document.getElementById('lat');
+let lng = <HTMLInputElement>document.getElementById('lng');
+
+Geolocation.getLocation().then(position => {
+    positionLat = position.coords.latitude;
+    positionLng = position.coords.longitude;
+    
+    lat.value = positionLat;
+    lng.value = positionLng;
+});
 
 document.getElementById('form-register').addEventListener('submit', e => {
     e.preventDefault();
@@ -8,16 +22,13 @@ document.getElementById('form-register').addEventListener('submit', e => {
     let email2 = <HTMLInputElement>document.getElementById('email2');
     let password = <HTMLInputElement>document.getElementById('password');
     let image = <HTMLInputElement>document.getElementById('image');
-    let lat = <HTMLInputElement>document.getElementById('lat');
-    let lng = <HTMLInputElement>document.getElementById('lng');
     let img;
 
     const reader: FileReader = new FileReader();
     if (image.files.length > 0) reader.readAsDataURL(image.files[0]);
     reader.addEventListener('loadend', e => {
       img = reader.result;
-      let preview = <HTMLImageElement>document.getElementById('imgPreview');
-      preview.setAttribute('src', img);
+      console.log(img);
     });
    
     let userInfo: IUser = {
@@ -38,7 +49,7 @@ document.getElementById('form-register').addEventListener('submit', e => {
         errorInfo.innerHTML = 'Error al registrarse: ';
         err.forEach( x => {
             errorInfo.innerHTML += x + '<br>';
-        })
+        });
     });
 
 });

@@ -47,14 +47,14 @@ export class GMaps {
         return new google.maps.Marker(opts);
     }
 
-    /*showInfoWindow(marker, content) {
+    showInfoWindow(marker, content) {
         if(this.map === null) return;
 
         var infoWindow = new google.maps.InfoWindow();
         infoWindow.setContent(content);
         infoWindow.open(this.map, marker);
         
-    }*/
+    }
 
     getAutocomplete(input: HTMLInputElement) {
         if(this.autocomplete !== null) return this.autocomplete;
