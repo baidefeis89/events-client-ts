@@ -17,7 +17,7 @@ document.getElementById('form-register').addEventListener('submit', e => {
     reader.addEventListener('loadend', e => {
       img = reader.result;
     });
-    
+   
     let userInfo: IUser = {
         name: name.value,
         email: email.value,
@@ -30,10 +30,7 @@ document.getElementById('form-register').addEventListener('submit', e => {
 
     //TODO Check the response when the promise failed
     Auth.register(userInfo).then( res => {
-        if (res)
-            location.assign('./login.html');
-        else
-            document.getElementById('errorInfo').innerHTML = 'Error al registrarse';    
+        location.assign('./login.html');   
     }).catch( err => {
         console.log(err);
         document.getElementById('errorInfo').innerHTML = 'Error al registrarse: ' + err;

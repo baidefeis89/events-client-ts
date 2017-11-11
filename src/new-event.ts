@@ -109,8 +109,8 @@ window.addEventListener('load', function () {
         position.lng = response.coords.longitude;
         let address = <HTMLInputElement>document.getElementById("address");
         address.value = `${response.coords.latitude}, ${response.coords.longitude}`;
-        
-        gmap = new GMaps(response.coords, document.getElementById("map"));
+        let divMap = <HTMLDivElement> document.getElementById('map');
+        gmap = new GMaps(response.coords, divMap);
         gmap.getMap().then(map => {            
             clickMap(response); // Initializes click event on the map 
 

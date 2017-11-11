@@ -1,4 +1,3 @@
-import { IUser } from "./interfaces/iuser";
 import { EventItem } from "./classes/event";
 import { Auth } from "./classes/authentication";
 import { Geolocation } from "./classes/geolocation";
@@ -40,7 +39,8 @@ window.addEventListener('load', e => {
                 latitude: event.lat,
                 longitude: event.lng
             }
-            gmap = new GMaps(position, document.getElementById("map"));
+            let divMap = <HTMLDivElement> document.getElementById('map');
+            gmap = new GMaps(position, divMap);
             gmap.getMap().then(map => {                           
                 let marker = gmap.createMarker(position.latitude, position.longitude, "red");
                 clickMarker(marker);
