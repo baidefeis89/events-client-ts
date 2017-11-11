@@ -68,8 +68,24 @@ window.addEventListener('load', e => {
         info.event = event;
 
         compileHandlebar();
-        
+    
+        info.event.forEach( ev => {
+            if (ev.mine) {
+                document.getElementById("buttonDelete"+ev.id).addEventListener("click", e => {
+                if (confirm('Delete this event?')) {
+                    ev.delete().then( response => {
+                        if (response) {
+                            location.assign('./index.html');
+                        }
+                    });
+                }
+              });
+            }
+
+        }); 
     });
+
+    
     
 
 })

@@ -35,6 +35,8 @@ window.addEventListener('load', e => {
 
             compileHandlebar();
 
+            createClickEvent(event);
+
             let position = {
                 latitude: event.lat,
                 longitude: event.lng
@@ -46,18 +48,7 @@ window.addEventListener('load', e => {
                 clickMarker(marker);
             });
 
-            let buttonDelete = document.querySelector("button.btn-danger");
-            if (document.querySelector("button.btn-danger")) {
-              buttonDelete.addEventListener("click", e => {
-                if (confirm('Delete this event?')) {
-                    event.delete().then( response => {
-                        if (response) {
-                            location.assign('./index.html');
-                        }
-                    });
-                }
-              });
-            }
+            
             
         }).catch( err => {
             location.assign('./index.html');
@@ -66,6 +57,19 @@ window.addEventListener('load', e => {
         
 });
 
+let createClickEvent = (ev) => {
+    if (ev.mine) {
+        document.getElementById("buttonDelete"+ev.id).addEventListener("click", e => {
+        if (confirm('Delete this event?')) {
+            ev.delete().then( response => {
+                if (response) {
+                    location.assign('./index.html');
+                }
+            });
+        }
+      });
+    }
+}
 
 let compileHandlebar = () => {
     let container = document.getElementById('cardContainer');
