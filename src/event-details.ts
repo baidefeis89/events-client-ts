@@ -12,6 +12,11 @@ let info = {
 }
 let gmap;
 
+document.getElementById('logout').addEventListener('click', e => {
+    Auth.logout();
+    location.assign('./login.html');
+});
+
 window.addEventListener('load', e => {
 
     let search = location.search;
@@ -35,7 +40,8 @@ window.addEventListener('load', e => {
 
             compileHandlebar();
 
-            createClickEvent(event);
+            createClickEvent();
+            attendButton();
 
             let position = {
                 latitude: event.lat,
@@ -57,18 +63,38 @@ window.addEventListener('load', e => {
         
 });
 
-let createClickEvent = (ev) => {
-    if (ev.mine) {
-        document.getElementById("buttonDelete"+ev.id).addEventListener("click", e => {
-        if (confirm('Delete this event?')) {
-            ev.delete().then( response => {
-                if (response) {
-                    location.assign('./index.html');
-                }
-            });
-        }
-      });
+let createClickEvent = () => {
+    if (event.mine) {
+        document.getElementById("buttonDelete"+event.id).addEventListener("click", e => {
+            if (confirm('Delete this event?')) {
+                event.delete().then( response => {
+                    if (response) {
+                        location.assign('./index.html');
+                    }
+                });
+            }
+        });
     }
+}
+
+let attendButton = () => {
+
+    let button =  document.getElementById('attend' + event.id);
+    button.addEventListener('click', e=> {
+        event.toggleAttend().then( response => {
+            if (response) {
+                if (event.attend) {
+                    button.setAttribute('class', 'btn btn-success float-right');
+                    button.innerHTML = 'Attend';
+                } else {
+                    button.setAttribute('class', 'btn btn-secondary float-right');
+                    button.innerHTML = 'No Attend';
+                }
+            }
+            
+        });
+        
+    });
 }
 
 let compileHandlebar = () => {

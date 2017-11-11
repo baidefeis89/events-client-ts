@@ -9,6 +9,11 @@ let template = require('../templates/profile.handlebars');
 
 let user: User;
 
+document.getElementById('logout').addEventListener('click', e => {
+    Auth.logout();
+    location.assign('./login.html');
+});
+
 window.addEventListener('load', e => {
     Auth.checkToken().then( response => {
         if (!response) {
