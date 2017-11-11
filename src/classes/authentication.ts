@@ -33,10 +33,8 @@ export class Auth {
                     return response.ok
                 }
                 else {
-                    throw response.error;
+                    throw response.errors;
                 }
-            }).catch( err => {
-              return err;  
             });
     }
 
@@ -47,10 +45,7 @@ export class Auth {
                 if (response.ok)
                     return response.ok;
                 else
-                    throw response.error;
-            }).catch( err => {
-                console.log('Error ajax token');
-                return err;
+                    throw false;
             });
     }
 
