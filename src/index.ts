@@ -44,6 +44,7 @@ document.getElementById('orderPrice').addEventListener('click', e => {
 let compileHandlebar = () => {
     let container = document.getElementById('eventsContainer');
     container.innerHTML = template(info);
+    makeEvents();
 };
 
 window.addEventListener('load', e => {
@@ -69,9 +70,14 @@ window.addEventListener('load', e => {
 
         compileHandlebar();
     
-        info.event.forEach( ev => {
-            if (ev.mine) {
-                document.getElementById("buttonDelete"+ev.id).addEventListener("click", e => {
+    });
+
+})
+
+function makeEvents() {
+    info.event.forEach( (ev: EventItem) => {
+        if (ev.mine) {
+            document.getElementById("buttonDelete"+ev.id).addEventListener("click", e => {
                 if (confirm('Delete this event?')) {
                     ev.delete().then( response => {
                         if (response) {
@@ -79,13 +85,26 @@ window.addEventListener('load', e => {
                         }
                     });
                 }
-              });
-            }
+            
+            });
+        }
+        
+        let button =  document.getElementById('attend' + ev.id);
+        button.addEventListener('click', e=> {
+            ev.toggleAttend().then( response => {
+                if (response) {
+                    if (ev.attend) {
+                        button.setAttribute('class', 'btn btn-success float-right');
+                        button.innerHTML = 'Attend';
+                    } else {
+                        button.setAttribute('class', 'btn btn-secondary float-right');
+                        button.innerHTML = 'No Attend';
+                    }
+                }
 
-        }); 
-    });
-
+            });
+            
+        });
     
-    
-
-})
+    }); 
+}
