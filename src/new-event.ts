@@ -11,10 +11,22 @@ let position = {
     lat: null,
     lng: null
 };
+let image;
 
 document.getElementById('logout').addEventListener('click', e => {
     Auth.logout();
     location.assign('./login.html');
+});
+
+document.getElementById('image').addEventListener('change', e => {
+    let fileInput = <HTMLInputElement>document.getElementById('image');
+    if (!fileInput.files || fileInput.files.length === 0 ) return;
+    const reader: FileReader = new FileReader();
+    reader.readAsDataURL(fileInput.files[0]);
+    reader.addEventListener('loadend', e => {
+      image = reader.result;
+    });
+    //document.getElementById('imgPreview').setAttribute('src',image);
 });
 
 document.getElementById('newEvent').addEventListener('submit', e => {
@@ -25,16 +37,16 @@ document.getElementById('newEvent').addEventListener('submit', e => {
     let price = <HTMLInputElement> document.getElementById('price');
     let date = <HTMLInputElement> document.getElementById('date');
     let address = <HTMLInputElement> document.getElementById('address');
-    let image = <HTMLInputElement> document.getElementById('image');
+    //let image = <HTMLInputElement> document.getElementById('image');
     let img;
 
-    const reader: FileReader = new FileReader();
+    /*const reader: FileReader = new FileReader();
     if(image.files.length > 0) {
         reader.readAsDataURL(image.files[0]);
         reader.addEventListener('loadend', e => {
         img = reader.result;
         });
-    }
+    }*/
 
     data = {
         title: title.value,
@@ -44,7 +56,7 @@ document.getElementById('newEvent').addEventListener('submit', e => {
         address: address.value,
         lat: position.lat,
         lng: position.lng,
-        image: img
+        image: image
         
     }
 

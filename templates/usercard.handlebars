@@ -1,0 +1,13 @@
+{{#each user}}
+<li class="list-group-item">
+<a href="profile.html?id={{id}}">
+    <img class="rounded-circle float-left mr-3" style="width: 40px;" src="http://arturober.com/svtickets-services/public/img/profile/{{avatar}}" alt="">
+</a>
+<div>
+    <div>{{name}}</div>
+    <div>
+    <small>{{mail}}</small>
+    </div>
+</div>
+</li>
+{{/each}}
