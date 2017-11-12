@@ -92,13 +92,13 @@ export class EventItem implements IEvent {
         });
     }
 
-    getAttendees(): Promise<boolean> {
+    getAttendees(): Promise<IUser[]> {
         return Http.ajax('GET',`${ATTEND_PATH}${this.id}`).then( response => {
             if (response.ok)
-                return response.ok;
+                return response.users.map( u => new User(u));
             else
                 throw response.error;
-        })
+        });
     }
 
     //TODO implement

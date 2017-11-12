@@ -2,14 +2,18 @@ import { EventItem } from "./classes/event";
 import { Auth } from "./classes/authentication";
 import { Geolocation } from "./classes/geolocation";
 import { GMaps } from "./classes/gmaps";
+import { User } from "./classes/user";
 
 declare function require(module: string): any;
-let template = require('../templates/event.handlebars');
+let templateEvent = require('../templates/event.handlebars');
+let templateUsers = require('../templates/usercard.handlebars');
 
 let event: EventItem;
 let info = {
-    event:[] 
-}
+    event:[],
+    user:[] 
+};
+let usersAttendees: User[];
 let gmap;
 
 document.getElementById('logout').addEventListener('click', e => {
@@ -38,7 +42,7 @@ window.addEventListener('load', e => {
             event = response;
             console.log(event);
 
-            compileHandlebar();
+            compileHandlebar(event,'cardContainer',templateEvent);
 
             createClickEvent();
             attendButton();
@@ -54,11 +58,21 @@ window.addEventListener('load', e => {
                 clickMarker(marker);
             });
 
+            event.getAttendees().then( (response: User[]) => {
+                usersAttendees = response;
+                console.log(usersAttendees);
+                compileHandlebar(usersAttendees,'userList',templateUsers);
+            }).catch( err => {
+                console.log(err);
+            });
             
             
         }).catch( err => {
             location.assign('./index.html');
         });
+
+
+
     }
         
 });
@@ -97,10 +111,18 @@ let attendButton = () => {
     });
 }
 
-let compileHandlebar = () => {
-    let container = document.getElementById('cardContainer');
-    info.event.push(event);
-    container.innerHTML = template(info);
+let compileHandlebar = (data,id,template) => {
+    let container = document.getElementById(id);
+    if (id === 'cardContainer') {
+        info.event.push(data);
+        container.innerHTML += template(info);
+        console.log(info);
+    } 
+    if (id === 'userList') {
+        info.user = data;
+        container.innerHTML += template(info);     
+        console.log(info);   
+    }
 };
 
 function clickMarker(marker) {
