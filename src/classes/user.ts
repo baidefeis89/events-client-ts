@@ -73,6 +73,4 @@ export class User implements IUser {
                 throw response.error;
         });
     }
-
-    
 }

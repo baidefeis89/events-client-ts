@@ -32,13 +32,6 @@ document.getElementById('form-register').addEventListener('submit', e => {
     let email = <HTMLInputElement>document.getElementById('email');
     let email2 = <HTMLInputElement>document.getElementById('email2');
     let password = <HTMLInputElement>document.getElementById('password');
-
-    /*const reader: FileReader = new FileReader();
-    if (image.files.length > 0) reader.readAsDataURL(image.files[0]);
-    reader.addEventListener('loadend', e => {
-      img = reader.result;
-      console.log(img);
-    });*/
    
     let userInfo: IUser = {
         name: name.value,
@@ -53,7 +46,6 @@ document.getElementById('form-register').addEventListener('submit', e => {
     Auth.register(userInfo).then( res => {
         location.assign('./login.html');   
     }).catch( err => {
-        console.log(err);
         let errorInfo = document.getElementById('errorInfo');
         errorInfo.innerHTML = 'Error al registrarse: ';
         err.forEach( x => {

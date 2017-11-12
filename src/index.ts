@@ -17,7 +17,6 @@ document.getElementById('logout').addEventListener('click', e => {
 document.getElementById('orderDistance').addEventListener('click', e => {
     info.event = event.sort( (ev1, ev2) => ev1.distance - ev2.distance );
     compileHandlebar();
-    console.log(info.event);
 });
 
 document.getElementById('orderDate').addEventListener('click', e => {
@@ -27,7 +26,6 @@ document.getElementById('orderDate').addEventListener('click', e => {
         return 0;
     })
     compileHandlebar();
-    console.log(info.event);
 });
 
 document.getElementById('searchEvent').addEventListener('keyup', e=> {
@@ -55,7 +53,6 @@ window.addEventListener('load', e => {
                 localStorage.removeItem('token');
             }
         }).catch( err => {
-            console.log(err);
             location.assign('./login.html');
         });
     } else {
@@ -64,7 +61,6 @@ window.addEventListener('load', e => {
 
     EventItem.getEvents().then( response => {
         event = response;
-        console.log(event);
 
         info.event = event;
 
@@ -72,7 +68,7 @@ window.addEventListener('load', e => {
     
     });
 
-})
+});
 
 function makeEvents() {
     info.event.forEach( (ev: EventItem) => {

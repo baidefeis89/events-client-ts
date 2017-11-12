@@ -26,7 +26,6 @@ document.getElementById('image').addEventListener('change', e => {
     reader.addEventListener('loadend', e => {
       image = reader.result;
     });
-    //document.getElementById('imgPreview').setAttribute('src',image);
 });
 
 document.getElementById('newEvent').addEventListener('submit', e => {
@@ -37,16 +36,7 @@ document.getElementById('newEvent').addEventListener('submit', e => {
     let price = <HTMLInputElement> document.getElementById('price');
     let date = <HTMLInputElement> document.getElementById('date');
     let address = <HTMLInputElement> document.getElementById('address');
-    //let image = <HTMLInputElement> document.getElementById('image');
     let img;
-
-    /*const reader: FileReader = new FileReader();
-    if(image.files.length > 0) {
-        reader.readAsDataURL(image.files[0]);
-        reader.addEventListener('loadend', e => {
-        img = reader.result;
-        });
-    }*/
 
     data = {
         title: title.value,
@@ -57,9 +47,7 @@ document.getElementById('newEvent').addEventListener('submit', e => {
         lat: position.lat,
         lng: position.lng,
         image: image
-        
-    }
-
+    };
     
     Http.ajax('POST',EVENTS_PATH,data).then( response => {
         if (response.ok) {
@@ -119,7 +107,6 @@ function clickMarker(marker) {
 
 window.addEventListener('load', function () {
     Geolocation.getLocation().then(response => {
-        console.log(response);
         position.lat = response.coords.latitude;
         position.lng = response.coords.longitude;
         let address = <HTMLInputElement>document.getElementById("address");

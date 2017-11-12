@@ -12,4 +12,3 @@ export interface IResponse {
     token?: string,
     avatar: string
 }
-

@@ -20,12 +20,8 @@ export class Geolocation {
                     default:
                         reject("An unknown error occurred.");
                         break;
-                    /*case error.UNKNOWN_ERROR:
-                        reject("An unknown error occurred.");
-                        break;*/
                 }
             });
         });
     }
-
 }

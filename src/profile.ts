@@ -27,19 +27,9 @@ window.addEventListener('load', e => {
             }).catch (err => {
                 location.assign('./login.html');
             });
-            /*Http.ajax('GET',`${PROFILE_PATH}${profile}`).then( response => {
-                if (response.ok) {
-                    user = response.profile;
-                    console.log(response);
-                    compileHandlebar();
-                } else {
-                    location.assign('./login.html');
-                }
-            });*/
         }
 
     }).catch( err => {
-        console.log(err);
         location.assign('./login.html');
     });
 });

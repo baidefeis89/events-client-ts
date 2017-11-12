@@ -25,7 +25,6 @@ window.addEventListener('load', e => {
         }
 
     }).catch( err => {
-        console.log(err);
         location.assign('./login.html');
     });
 });
@@ -87,4 +86,3 @@ document.getElementById('form-password').addEventListener('submit', e => {
         document.getElementById('errorInfo3').innerHTML = err;
     });
 });
-

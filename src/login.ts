@@ -10,7 +10,6 @@ window.addEventListener('load', e => {
     Auth.checkToken()
         .then( response => {
             if (response) location.assign('./index.html');
-            console.log(response);
         }).catch( err => {
 
             Geolocation.getLocation().then(position => {
@@ -31,10 +30,8 @@ window.addEventListener('load', e => {
                 
                 if(loginInfo.email != '' && loginInfo.password != ''){
                     Auth.login(loginInfo).then( response => {
-                        console.log("Success");
                         location.assign('./index.html')
                     }).catch( err => {
-                        console.log(err);
                         document.getElementById('errorInfo').innerHTML = 'Nombre de usuario o contraseña incorrectos';
                     });
                 } else {

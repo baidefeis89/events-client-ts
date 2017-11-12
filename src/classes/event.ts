@@ -101,9 +101,4 @@ export class EventItem implements IEvent {
         });
     }
 
-    //TODO implement
-    toHTML(): HTMLDivElement{
-        return new HTMLDivElement;
-    }
 }
-

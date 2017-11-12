@@ -27,20 +27,17 @@ window.addEventListener('load', e => {
     let id: number = Number(search.split('=')[1]);
     if( isNaN(id) ) {
         location.assign('./index.html');
-        console.log('not a number');
     } else {
         Auth.checkToken().then( response => {
             if (!response) {
                 location.assign('./login.html');
             }
         }).catch( err => {
-            console.log(err);
             location.assign('./login.html');
         });
     
         EventItem.getEvent(id).then( response => {
             event = response;
-            console.log(event);
 
             compileHandlebar(event,'cardContainer',templateEvent);
 
@@ -59,14 +56,6 @@ window.addEventListener('load', e => {
             });
 
             getAttendees();
-            /*event.getAttendees().then( (response: User[]) => {
-                usersAttendees = response;
-                console.log(usersAttendees);
-                compileHandlebar(usersAttendees,'userList',templateUsers);
-            }).catch( err => {
-                console.log(err);
-            });*/
-            
             
         }).catch( err => {
             location.assign('./index.html');
@@ -81,7 +70,6 @@ window.addEventListener('load', e => {
 let getAttendees = () => {
     event.getAttendees().then( (response: User[]) => {
         usersAttendees = response;
-        console.log(usersAttendees);
         compileHandlebar(usersAttendees,'userList',templateUsers);
     }).catch( err => {
         console.log(err);
@@ -128,12 +116,10 @@ let compileHandlebar = (data,id,template) => {
     if (id === 'cardContainer') {
         info.event.push(data);
         container.innerHTML = template(info);
-        console.log(info);
     } 
     if (id === 'userList') {
         info.user = data;
-        container.innerHTML = template(info);     
-        console.log(info);   
+        container.innerHTML = template(info);  
     }
 };
 

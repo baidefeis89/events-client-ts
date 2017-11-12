@@ -15,16 +15,13 @@
 
             http.addEventListener( 'readystatechange', e => {
                 if (http.readyState == 4) {
-                    console.log(http.responseText);
                     if (http.status == 200) {
-                        console.log('status ok',url,method);
                         try {
                             resolve(JSON.parse(http.responseText));
                         } catch(error) {
                             reject(`Server response is not valid JSON: ${http.responseText}`);
                         }
                     } else {
-                        console.log('status failed',http.status,http.statusText,url,method);
                         reject(`HTTP status: ${http.status} -> ${http.statusText}`);
                     }
                 }
