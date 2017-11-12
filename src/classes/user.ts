@@ -60,8 +60,13 @@ export class User implements IUser {
         });
     }
 
-    savePassword(password: string): Promise<boolean> {
-        return Http.ajax('PUT',UPDATE_PASSWORD_PATH,password).then( response => {
+    savePassword(password: string, password2: string): Promise<boolean> {
+        let pass = {
+            password: password,
+            password2: password2
+        };
+
+        return Http.ajax('PUT',UPDATE_PASSWORD_PATH,pass).then( response => {
             if (response.ok)
                 return response.ok;
             else
