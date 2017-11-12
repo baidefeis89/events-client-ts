@@ -58,13 +58,14 @@ window.addEventListener('load', e => {
                 clickMarker(marker);
             });
 
-            event.getAttendees().then( (response: User[]) => {
+            getAttendees();
+            /*event.getAttendees().then( (response: User[]) => {
                 usersAttendees = response;
                 console.log(usersAttendees);
                 compileHandlebar(usersAttendees,'userList',templateUsers);
             }).catch( err => {
                 console.log(err);
-            });
+            });*/
             
             
         }).catch( err => {
@@ -76,6 +77,16 @@ window.addEventListener('load', e => {
     }
         
 });
+
+let getAttendees = () => {
+    event.getAttendees().then( (response: User[]) => {
+        usersAttendees = response;
+        console.log(usersAttendees);
+        compileHandlebar(usersAttendees,'userList',templateUsers);
+    }).catch( err => {
+        console.log(err);
+    });
+}
 
 let createClickEvent = () => {
     if (event.mine) {
@@ -104,6 +115,7 @@ let attendButton = () => {
                     button.setAttribute('class', 'btn btn-secondary float-right');
                     button.innerHTML = 'No Attend';
                 }
+                getAttendees();
             }
             
         });
@@ -115,12 +127,12 @@ let compileHandlebar = (data,id,template) => {
     let container = document.getElementById(id);
     if (id === 'cardContainer') {
         info.event.push(data);
-        container.innerHTML += template(info);
+        container.innerHTML = template(info);
         console.log(info);
     } 
     if (id === 'userList') {
         info.user = data;
-        container.innerHTML += template(info);     
+        container.innerHTML = template(info);     
         console.log(info);   
     }
 };
