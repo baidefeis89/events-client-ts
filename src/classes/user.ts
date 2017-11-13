@@ -52,7 +52,8 @@ export class User implements IUser {
     }
 
     saveAvatar(avatar: string): Promise<boolean> {
-        return Http.ajax('PUT',UPDATE_AVATAR_PATH,avatar).then( response => {
+        let data = {avatar: avatar};
+        return Http.ajax('PUT',UPDATE_AVATAR_PATH,data).then( response => {
             if (response.ok) 
                 return response.ok;
             else

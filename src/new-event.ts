@@ -102,6 +102,8 @@ function clickMarker(marker) {
     google.maps.event.addListener(marker, 'click', event => {
         gmap.showInfoWindow(marker, "Marker at lat: " + event.latLng.lat().toFixed(6) +
                                     ", lng: " + event.latLng.lng().toFixed(6));
+        position.lat = event.latLng.lat();
+        position.lng = event.latLng.lng();
     });
 }
 
