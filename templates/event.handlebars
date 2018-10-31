@@ -4,7 +4,7 @@
             <a href="event-details.html?id={{id}}"><img class="card-img-top" src="http://arturober.com/svtickets-services/public/img/events/{{image}}"></a>
             <div class="card-body">
             <div class="float-left mr-4 text-center">
-                <a href="profile.html?id={{id}}"><img class="rounded-circle" style="width: 50px;" src="http://arturober.com/svtickets-services/public/img/profile/{{creator.avatar}}" alt=""></a>
+                <a href="profile.html?id={{creator.id}}"><img class="rounded-circle" style="width: 50px;" src="http://arturober.com/svtickets-services/public/img/profile/{{creator.avatar}}" alt=""></a>
                 <div>
                 <small>{{creator.name}}</small>
                 </div>
@@ -15,9 +15,13 @@
             <p class="card-text">{{description}}</p>
             <div>
                 {{#if mine}}
-                <button class="btn btn-danger ml-3 float-right">Delete</button>
+                <button id="buttonDelete{{id}}" class="btn btn-danger ml-3 float-right">Delete</button>
                 {{/if}}
-                <button class="btn btn-secondary float-right">Attend</button>
+                {{#if attend}}
+                <button id="attend{{id}}" class="btn btn-success float-right">Attend</button>
+                {{else}}
+                <button id="attend{{id}}" class="btn btn-secondary float-right">No Attend</button>
+                {{/if}}
             </div>
             </div>
             <div class="card-footer">

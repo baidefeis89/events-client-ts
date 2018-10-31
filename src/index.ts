@@ -17,7 +17,6 @@ document.getElementById('logout').addEventListener('click', e => {
 document.getElementById('orderDistance').addEventListener('click', e => {
     info.event = event.sort( (ev1, ev2) => ev1.distance - ev2.distance );
     compileHandlebar();
-    console.log(info.event);
 });
 
 document.getElementById('orderDate').addEventListener('click', e => {
@@ -27,7 +26,6 @@ document.getElementById('orderDate').addEventListener('click', e => {
         return 0;
     })
     compileHandlebar();
-    console.log(info.event);
 });
 
 document.getElementById('searchEvent').addEventListener('keyup', e=> {
@@ -44,6 +42,7 @@ document.getElementById('orderPrice').addEventListener('click', e => {
 let compileHandlebar = () => {
     let container = document.getElementById('eventsContainer');
     container.innerHTML = template(info);
+    makeEvents();
 };
 
 window.addEventListener('load', e => {
@@ -54,7 +53,6 @@ window.addEventListener('load', e => {
                 localStorage.removeItem('token');
             }
         }).catch( err => {
-            console.log(err);
             location.assign('./login.html');
         });
     } else {
@@ -63,13 +61,46 @@ window.addEventListener('load', e => {
 
     EventItem.getEvents().then( response => {
         event = response;
-        console.log(event);
 
         info.event = event;
 
         compileHandlebar();
-        
-    });
     
+    });
 
-})
+});
+
+function makeEvents() {
+    info.event.forEach( (ev: EventItem) => {
+        if (ev.mine) {
+            document.getElementById("buttonDelete"+ev.id).addEventListener("click", e => {
+                if (confirm('Delete this event?')) {
+                    ev.delete().then( response => {
+                        if (response) {
+                            location.assign('./index.html');
+                        }
+                    });
+                }
+            
+            });
+        }
+        
+        let button =  document.getElementById('attend' + ev.id);
+        button.addEventListener('click', e=> {
+            ev.toggleAttend().then( response => {
+                if (response) {
+                    if (ev.attend) {
+                        button.setAttribute('class', 'btn btn-success float-right');
+                        button.innerHTML = 'Attend';
+                    } else {
+                        button.setAttribute('class', 'btn btn-secondary float-right');
+                        button.innerHTML = 'No Attend';
+                    }
+                }
+
+            });
+            
+        });
+    
+    }); 
+}
